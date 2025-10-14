@@ -4,11 +4,13 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict, Any
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent
 
-VTUBER_ROOT = os.getenv("VTUBER_ROOT", os.path.expanduser("~/work/3rdparty/Open-LLM-VTuber"))
-LLM_SERVER_ROOT = os.getenv("LLM_SERVER_ROOT", os.path.expanduser("~/work/digitalhuman_round_server"))
-PUBLIC_HOST = os.getenv("PUBLIC_HOST", "localhost")
-LOG_DIR = os.getenv("DH_LOG_DIR", os.path.expanduser("~/work/digitalhub_service/logs"))
+VTUBER_ROOT = os.getenv("VTUBER_ROOT", str((BASE_DIR / "../3rdparty/Open-LLM-VTuber").resolve()))
+LLM_SERVER_ROOT = os.getenv("LLM_SERVER_ROOT", str((BASE_DIR / "../digitalhuman_round_server").resolve()))
+PUBLIC_HOST = os.getenv("PUBLIC_HOST", "localhost")  # 这行保持不变
+LOG_DIR = os.getenv("DH_LOG_DIR", str((BASE_DIR / "logs").resolve()))
 
 UVICORN_READY_RE = re.compile(r"Uvicorn running on (https?://[^\s]+)")
 VTUBER_PORT_LINE_RE = re.compile(r"Starting server on (?:localhost|127\.0\.0\.1):(\d+)")
