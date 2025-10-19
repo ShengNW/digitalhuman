@@ -24,6 +24,17 @@ for d in "$VTUBER_ROOT" "$LLM_SERVER_ROOT"; do
   fi
 done
 
+# 可选：运行前做一下目录存在性校验，避免踩到后续 500
+for d in "$VTUBER_ROOT" "$LLM_SERVER_ROOT"; do
+  if [[ ! -d "$d" ]]; then
+    echo "目录不存在: $d"
+    echo "请确认目录结构为："
+    echo "  ${PROJ_ROOT}/3rdparty/Open-LLM-VTuber"
+    echo "  ${PROJ_ROOT}/digitalhuman_round_server"
+    exit 1
+  fi
+done
+
 if command -v uv >/dev/null 2>&1; then
   # 用 uv 直接启动，临时环境自动解析依赖，无需系统 python/venv/pip
   exec uv run \
